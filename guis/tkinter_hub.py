@@ -6,7 +6,7 @@ from Queue import LifoQueue
 from threading import Thread
 
 
-from driver.heart_rate_driver import read_cms50dplus
+from driver.heart_rate_driver import read_cms50dplus, read_simulated_cms50plus
 
 
 class HeartRateHub(object):
@@ -48,12 +48,19 @@ class HeartRateHub(object):
         self.locked = not self.locked
 
 
-def main(port):
+def main(port, simulated=False):
+    if simulated:
+        driver = read_simulated_cms50plus
+        logging.info("Using simulation")
+    else:
+        driver = read_cms50dplus
+        logging.info("Using cms50dplus")
     root = tk.Tk()
-    HeartRateHub(root, port, read_cms50dplus)
+    HeartRateHub(root, port, driver)
     root.mainloop()
 
 
 if __name__ == '__main__':
     logging.basicConfig(format='%(message)s', level=logging.INFO)
-    main(sys.argv[1])
+    # todo, ugh, argparse is a thing. Use it
+    main(sys.argv[1], simulated=sys.argv[2] == '--simulated')
