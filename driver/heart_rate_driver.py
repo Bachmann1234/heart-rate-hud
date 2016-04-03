@@ -1,4 +1,5 @@
 import logging
+import random
 
 from datetime import datetime
 
@@ -11,7 +12,11 @@ def read_simulated_cms50plus(q, port):
         q.put(
             cms50dplus.LiveDataPoint(
                 datetime.now(),
-                [134, 40, 5, 86, 98]
+                random.choice(
+                    [[135, 35, 4, 70, 98], [199, 64, 8, 76, 98], [144, 40, 53, 0, 0], [198, 68, 8, 84, 97],
+                     [199, 59, 7, 85, 97], [199, 66, 8, 86, 97], [134, 85, 10, 106, 97], [198, 69, 8, 107, 97],
+                     [198, 76, 9, 110, 97], [134, 75, 9, 109, 96]]
+                )
             )
         )
 
