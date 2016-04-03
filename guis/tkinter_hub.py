@@ -27,6 +27,7 @@ class HeartRateHub(object):
 
         self.heart_queue = LifoQueue()
         driver_thread = Thread(target=driver, args=(self.heart_queue, port))
+        driver_thread.setDaemon(True)
         self.master.after(1000, self.update_heart_rate)
         driver_thread.start()
 
