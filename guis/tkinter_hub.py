@@ -32,8 +32,9 @@ class HeartRateHub(object):
 
     def update_heart_rate(self):
         if not self.heart_queue.empty():
-            heart_rate = self.heart_queue.get().pulseRate
-            self.heart_rate_text.set(heart_rate)
+            data = self.heart_queue.get()
+            self.heart_rate_text.set(data.pulseRate)
+            logging.info(data)
             self.heart_queue.empty()
         self.master.after(1000, self.update_heart_rate)
 
